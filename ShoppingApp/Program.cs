@@ -16,8 +16,7 @@ namespace ShoppingApp
 
             cart.RemoveProduct(new Soup(), 2);
 
-            var subTotal = cart.SubTotal;
-            var total = cart.Total;
+            var bill = new Bill(cart);
         }
     }
 }
