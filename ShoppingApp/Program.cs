@@ -1,5 +1,4 @@
-﻿using DataAccess;
-using Domain;
+﻿using Domain;
 using System;
 
 namespace ShoppingApp
@@ -8,10 +7,17 @@ namespace ShoppingApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            var products = new ProductRepository();
+            var cart = new ShoppingCart();
 
-            var cheese = products.Wh
+            cart.AddProduct(new Cheese(), 2);
+            cart.AddProduct(new Bread(), 2);
+            cart.AddProduct(new Soup(), 2);
+            cart.AddProduct(new Butter(), 3);
+
+            cart.RemoveProduct(new Soup(), 2);
+
+            var subTotal = cart.SubTotal;
+            var total = cart.Total;
         }
     }
 }

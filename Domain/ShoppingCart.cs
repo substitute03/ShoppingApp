@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Domain
 {
     public class ShoppingCart
     {
-        public List<Product> Products { get; }
+        public List<Product> Products { get; } = new List<Product>();
 
-        public decimal SubTotal => ApplySpecialOffers(Total);
+        public decimal Total => ApplySpecialOffers(SubTotal);
 
-        public decimal Total => Products.Sum(p => p.Price);
+        public decimal SubTotal => Products.Sum(p => p.Price);
+
+        public List<SpecialOffer> SpecialOffersApplied { get; } = new List<SpecialOffer>();
 
         public void AddProduct(Product product, int numberToAdd)
         {
@@ -31,33 +31,60 @@ namespace Domain
 
             for (int i = 1; i <= numberToRemove; i++)
             {
-                Products.Remove(product);
+                foreach(Product item in Products)
+                {
+                    if (item.GetType() == product.GetType())
+                    {
+                        Products.Remove(item);
+                        break;
+                    }
+                }
             }
         }
 
         private decimal ApplySpecialOffers(decimal total)
         {
             decimal totalDiscount = 0M;
+            SpecialOffersApplied.Clear();
 
             if(Products.OfType<Cheese>().Any())
             {
-                totalDiscount = totalDiscount + DiscountService
-                    .CalculateCheeseDiscount(this);
+                decimal discount = DiscountService.CalculateCheeseDiscount(this);
+                totalDiscount = totalDiscount + discount;
+
+                SpecialOffersApplied.Add(new SpecialOffer
+                {
+                    Name = nameof(Cheese),
+                    Discount = discount
+                });
             }
 
             if (Products.OfType<Soup>().Any())
             {
-                totalDiscount = totalDiscount + DiscountService
-                    .CalculateSoupDiscount(this);
+                decimal discount = DiscountService.CalculateBreadDiscount(this);
+                totalDiscount = totalDiscount + discount;
+
+                SpecialOffersApplied.Add(new SpecialOffer
+                {
+                    Name = nameof(Bread),
+                    Discount = discount
+                });
             }
 
             if (Products.OfType<Butter>().Any())
             {
-                totalDiscount = totalDiscount + DiscountService
-                    .CalculateButterDiscount(this);
+                decimal discount = DiscountService.CalculateButterDiscount(this);
+                totalDiscount = totalDiscount + discount;
+
+                SpecialOffersApplied.Add(new SpecialOffer
+                {
+                    Name = nameof(Butter),
+                    Discount = discount
+
+                });
             }
 
-            return Total - totalDiscount;
+            return SubTotal - totalDiscount;
         }
     }
 }

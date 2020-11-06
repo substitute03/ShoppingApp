@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Domain
 {
@@ -16,19 +14,19 @@ namespace Domain
             decimal amountToDiscount = cart.Products.OfType<Cheese>()
                 .First().Price * numberToDiscount;
 
-            return amountToDiscount;
+            return Math.Round(amountToDiscount, 2);
         }
 
-        public static decimal CalculateSoupDiscount(ShoppingCart cart)
+        public static decimal CalculateBreadDiscount(ShoppingCart cart)
         {
             int countSoup = cart.Products.OfType<Soup>().Count();
 
-            int numberToDiscount = countSoup / 2;
+            int numberToDiscount = countSoup;
 
             decimal amountToDiscount = cart.Products.OfType<Bread>()
                 .First().Price * numberToDiscount * 0.5M;
 
-            return amountToDiscount;
+            return Math.Round(amountToDiscount, 2);
         }
 
         public static decimal CalculateButterDiscount(ShoppingCart cart)
@@ -36,9 +34,9 @@ namespace Domain
             int countButter = cart.Products.OfType<Butter>().Count();
 
             decimal amountToDiscount = cart.Products.OfType<Butter>()
-                .First().Price * countButter * (2M / 3M);
+                .First().Price * countButter * (1M / 3M);
 
-            return amountToDiscount;
+            return Math.Round(amountToDiscount, 2);
         }
     }
 }
