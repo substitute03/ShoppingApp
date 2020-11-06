@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Domain
 {
-    public class SpecialOffer
+    public class Milk : Product
     {
-        
+        public override decimal Price => 0.5M;
     }
 }

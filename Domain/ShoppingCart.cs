@@ -7,12 +7,11 @@ namespace Domain
 {
     public class ShoppingCart
     {
-        private readonly List<Product> _products;
-        public List<Product> Products => _products;
+        public List<Product> Products { get; }
 
-        public decimal SubTotal { get; private set; }
+        public decimal SubTotal => ApplySpecialOffers(Total);
 
-        public decimal Total => _products.Sum(p => p.Price);
+        public decimal Total => Products.Sum(p => p.Price);
 
         public void AddProduct(Product product, int numberToAdd)
         {
@@ -21,10 +20,8 @@ namespace Domain
 
             for (int i = 1; i <= numberToAdd; i++)
             {
-                _products.Add(product);
+                Products.Add(product);
             }
-
-            CalculateSubTotal();
         }
 
         public void RemoveProduct (Product product, int numberToRemove)
@@ -34,15 +31,33 @@ namespace Domain
 
             for (int i = 1; i <= numberToRemove; i++)
             {
-                _products.Remove(product);
+                Products.Remove(product);
             }
-
-            CalculateSubTotal();
         }
 
-        private void CalculateSubTotal()
+        private decimal ApplySpecialOffers(decimal total)
         {
+            decimal totalDiscount = 0M;
 
+            if(Products.OfType<Cheese>().Any())
+            {
+                totalDiscount = totalDiscount + DiscountService
+                    .CalculateCheeseDiscount(this);
+            }
+
+            if (Products.OfType<Soup>().Any())
+            {
+                totalDiscount = totalDiscount + DiscountService
+                    .CalculateSoupDiscount(this);
+            }
+
+            if (Products.OfType<Butter>().Any())
+            {
+                totalDiscount = totalDiscount + DiscountService
+                    .CalculateButterDiscount(this);
+            }
+
+            return Total - totalDiscount;
         }
     }
 }
