@@ -7,15 +7,15 @@ namespace Domain
 {
     public class Bill
     {
-        decimal SubTotal { get; }
-        decimal Total { get; }
-        List<SpecialOffer> SpecialOffers { get; }
+        public decimal SubTotal { get; }
+        public decimal Total { get; }
+        public List<SpecialOffer> SpecialOffers { get; }
 
-        public Bill(ShoppingCart cart)
+        public Bill(ShoppingBasket basket)
         {
-            SubTotal = cart.SubTotal;
-            Total = cart.Total;
-            SpecialOffers = cart.SpecialOffersApplied;
+            SubTotal = basket.SubTotal;
+            Total = basket.Total;
+            SpecialOffers = basket.SpecialOffersApplied;
         }
     }
 }

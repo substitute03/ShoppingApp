@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Domain
 {
-    public class ShoppingCart
+    public class ShoppingBasket
     {
         public List<Product> Products { get; } = new List<Product>();
 

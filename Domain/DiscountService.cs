@@ -5,7 +5,7 @@ namespace Domain
 {
     public static class DiscountService
     {
-        public static decimal CalculateCheeseDiscount(ShoppingCart cart)
+        public static decimal CalculateCheeseDiscount(ShoppingBasket cart)
         {
             int countCheese = cart.Products.OfType<Cheese>().Count();
 
@@ -17,7 +17,7 @@ namespace Domain
             return Math.Round(amountToDiscount, 2);
         }
 
-        public static decimal CalculateBreadDiscount(ShoppingCart cart)
+        public static decimal CalculateBreadDiscount(ShoppingBasket cart)
         {
             int countSoup = cart.Products.OfType<Soup>().Count();
 
@@ -29,7 +29,7 @@ namespace Domain
             return Math.Round(amountToDiscount, 2);
         }
 
-        public static decimal CalculateButterDiscount(ShoppingCart cart)
+        public static decimal CalculateButterDiscount(ShoppingBasket cart)
         {
             int countButter = cart.Products.OfType<Butter>().Count();
 
