@@ -12,7 +12,8 @@ namespace DomainTests
         [DataRow(1, 1, "0.55")]
         [DataRow(3, 2, "1.1")]
         [DataRow(3, 3, "1.65")]
-        public void For_each_soup_bought_price_of_one_bread_should_be_half(int countBread, int countSoup, string expectedBreadDiscount)
+        [DataRow(2, 5, "1.1")]
+        public void For_each_soup_bought_price_of_one_bread_should_be_halved(int countBread, int countSoup, string expectedBreadDiscount)
         {
             // Arrange
             decimal expected = decimal.Parse(expectedBreadDiscount);
@@ -80,7 +81,7 @@ namespace DomainTests
         }
 
         [TestMethod]
-        public void All_discounts_applied_when_basket_is_eligible_for_all_discounts()
+        public void All_offers_applied_when_basket_is_eligible_for_all_offers()
         {
             // Arrange
             decimal expectedBreadDiscount = 0.55M;

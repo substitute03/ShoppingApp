@@ -30,8 +30,17 @@ namespace Domain
         public decimal CalculateBreadDiscount(ShoppingBasket basket)
         {
             int countSoup = basket.Products.Count(p => p.Type == ProductType.Soup);
+            int countBread = basket.Products.Count(p => p.Type == ProductType.Bread);
 
-            int numberToDiscount = countSoup;
+            int numberToDiscount = 0;
+            if (countSoup >= countBread)
+            {
+                numberToDiscount = countBread;
+            }
+            else if (countBread > countSoup)
+            {
+                numberToDiscount = countSoup;
+            }                
 
             decimal amountToDiscount = basket.Products
                 .First(p => p.Type == ProductType.Bread).Price * numberToDiscount * 0.5M;

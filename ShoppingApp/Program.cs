@@ -26,20 +26,31 @@ namespace ShoppingApp
                     Console.WriteLine();
                     Console.WriteLine("* To see a list of available products, type \"/products\".");
                     Console.WriteLine("* To add an item to your basket, type \"/add\". When you have added an item to your basket, type \"/confirm\" to confirm.");
+                    Console.WriteLine("* To see the contents of your basket, type \"/basket\".");
                     Console.WriteLine("* Once you have finished shopping, type \"/checkout\" to generate your bill.");
                     Console.WriteLine();
+                }
+                else if (command == "/BASKET")
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Product | Price");
+                    foreach (var product in basket.Products)
+                    {
+                        Console.WriteLine($"{product.Type} | { product.Price}");
+                    }
                 }
                 else if (command == "/PRODUCTS")
                 {
                     Console.WriteLine();
                     foreach(var product in products)
                     {
-                        Console.WriteLine(product.GetType().Name);
+                        Console.WriteLine(product.Type);
                     }
                     Console.WriteLine();
                 }
                 else if (command.Substring(0, 4) == "/ADD")
                 {
+                    Console.WriteLine();
                     Console.WriteLine("Please select the product to add to your basket.");
 
                     Product productToAdd = null;
@@ -76,6 +87,7 @@ namespace ShoppingApp
                         }
                     }
 
+                    Console.WriteLine();
                     Console.WriteLine($"You have selected {product}. Please enter the number that you want to buy.");
 
                     int quantity = 0;
@@ -90,6 +102,7 @@ namespace ShoppingApp
                     bool isConfirmed = false;
                     while (!isConfirmed)
                     {
+                        Console.WriteLine();
                         Console.WriteLine($"You have selected {quantity} {product}. To confirm, please type /confirm");
                         if (Console.ReadLine().ToUpper().Trim() == "/CONFIRM")
                             isConfirmed = true;
