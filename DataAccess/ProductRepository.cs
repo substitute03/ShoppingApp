@@ -1,6 +1,7 @@
 ﻿using Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataAccess
@@ -9,18 +10,21 @@ namespace DataAccess
     {
         public List<Product> GetAll()
         {
-            List<Product> products = new List<Product>();
-
-            products.AddRange(new List<Product>
-            {
-                new Bread(),
-                new Butter(),
-                new Soup(),
-                new Cheese(),
-                new Milk()
-            }); ;
-
-            return products;
+            return Products;
         }
+
+        public Product GetByType(ProductType type)
+        {
+            return Products.Single(p => p.Type == type);
+        }
+
+        private List<Product> Products => new List<Product>
+        {
+            new Product(1.1M, ProductType.Bread),
+            new Product(1.2M, ProductType.Butter),
+            new Product(0.6M, ProductType.Soup),
+            new Product(0.9M, ProductType.Cheese),
+            new Product(0.5M, ProductType.Milk)
+        };
     }
 }

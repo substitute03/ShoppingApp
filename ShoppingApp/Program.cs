@@ -2,6 +2,7 @@
 using Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShoppingApp
 {
@@ -50,23 +51,23 @@ namespace ShoppingApp
                         switch (product)
                         {
                             case "BREAD":
-                                productToAdd = new Bread();
+                                productToAdd = productRepository.GetByType(ProductType.Bread);
                                 isRealProduct = true;
                                 break;
                             case "CHEESE":
-                                productToAdd = new Cheese();
+                                productToAdd = productRepository.GetByType(ProductType.Cheese);
                                 isRealProduct = true;
                                 break;
                             case "SOUP":
-                                productToAdd = new Soup();
+                                productToAdd = productRepository.GetByType(ProductType.Soup);
                                 isRealProduct = true;
                                 break;
                             case "MILK":
-                                productToAdd = new Milk();
+                                productToAdd = productRepository.GetByType(ProductType.Milk);
                                 isRealProduct = true;
                                 break;
                             case "BUTTER":
-                                productToAdd = new Butter();
+                                productToAdd = productRepository.GetByType(ProductType.Butter);
                                 isRealProduct = true;
                                 break;
                             default:

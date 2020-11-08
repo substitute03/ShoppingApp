@@ -18,8 +18,8 @@ namespace DomainTests
             decimal expected = decimal.Parse(expectedDiscount);
             var basket = new ShoppingBasket(new DiscountService());    
 
-            basket.AddProduct(new Bread(), countBread);
-            basket.AddProduct(new Soup(), countSoup);
+            basket.AddProduct(new Product(1.1M, ProductType.Bread), countBread);
+            basket.AddProduct(new Product(0.6M, ProductType.Soup), countSoup);
 
             var bill = new Bill(basket);
 
@@ -44,7 +44,7 @@ namespace DomainTests
             decimal expected = decimal.Parse(expectedDiscount);
             var basket = new ShoppingBasket(new DiscountService());
 
-            basket.AddProduct(new Cheese(), countCheese);
+            basket.AddProduct(new Product(0.9M, ProductType.Cheese), countCheese);
 
             var bill = new Bill(basket);
 
@@ -68,7 +68,7 @@ namespace DomainTests
             decimal expected = decimal.Parse(expectedDiscount);
             var basket = new ShoppingBasket(new DiscountService());
 
-            basket.AddProduct(new Butter(), countButter);
+            basket.AddProduct(new Product(1.2M, ProductType.Butter), countButter);
 
             var bill = new Bill(basket);
 

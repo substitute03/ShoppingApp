@@ -64,7 +64,7 @@ namespace Domain
             decimal totalDiscount = 0M;
             SpecialOffersApplied.Clear();
 
-            if(Products.OfType<Cheese>().Any()) // might be clearer to use producttype enum
+            if(Products.Any(p => p.Type == ProductType.Cheese))
             {
                 decimal discount = discountService.CalculateCheeseDiscount(this);
                 totalDiscount = totalDiscount + discount;
@@ -76,7 +76,7 @@ namespace Domain
                 });
             }
 
-            if (Products.OfType<Soup>().Any())
+            if (Products.Any(p => p.Type == ProductType.Soup))
             {
                 decimal discount = discountService.CalculateBreadDiscount(this);
                 totalDiscount = totalDiscount + discount;
@@ -88,7 +88,7 @@ namespace Domain
                 });
             }
 
-            if (Products.OfType<Butter>().Any())
+            if (Products.Any(p => p.Type == ProductType.Butter))
             {
                 decimal discount = discountService.CalculateButterDiscount(this);
                 totalDiscount = totalDiscount + discount;

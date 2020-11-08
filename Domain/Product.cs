@@ -1,17 +1,23 @@
 ﻿namespace Domain
 {
-    public abstract class Product
+    public class Product
     {
-        public abstract decimal Price { get; }
-        public abstract ProductType Type { get; }
-    }
+        public Product(decimal price, ProductType type)
+        {
+            Price = price;
+            Type = type;
+        }
 
-    public enum ProductType
-    {
-        Bread,
-        Cheese,
-        Milk,
-        Soup,
-        Butter
+        public decimal Price { get; private set; }
+        public ProductType Type { get; private set; }
     }
+}
+
+public enum ProductType
+{
+    Bread,
+    Cheese,
+    Milk,
+    Soup,
+    Butter
 }
