@@ -5,6 +5,13 @@ namespace Domain
 {
     public class ShoppingBasket
     {
+        DiscountService discountService;
+
+        public ShoppingBasket(DiscountService discountService)
+        {
+            this.discountService = discountService;
+        }
+
         public List<Product> Products { get; } = new List<Product>();
 
         public decimal Total => ApplySpecialOffers(SubTotal);
@@ -13,6 +20,11 @@ namespace Domain
 
         public List<SpecialOffer> SpecialOffersApplied { get; } = new List<SpecialOffer>();
 
+        /// <summary>
+        /// Adds 1 of more of the specified product to the shopping basket.
+        /// </summary>
+        /// <param name="product"></param>
+        /// <param name="numberToAdd"></param>
         public void AddProduct(Product product, int numberToAdd)
         {
             if (numberToAdd == 0)
@@ -24,6 +36,11 @@ namespace Domain
             }
         }
 
+        /// <summary>
+        /// Removed 1 or more of the specified product from the shopping basket.
+        /// </summary>
+        /// <param name="product"></param>
+        /// <param name="numberToRemove"></param>
         public void RemoveProduct (Product product, int numberToRemove)
         {
             if (numberToRemove == 0)
@@ -47,38 +64,38 @@ namespace Domain
             decimal totalDiscount = 0M;
             SpecialOffersApplied.Clear();
 
-            if(Products.OfType<Cheese>().Any())
+            if(Products.OfType<Cheese>().Any()) // might be clearer to use producttype enum
             {
-                decimal discount = DiscountService.CalculateCheeseDiscount(this);
+                decimal discount = discountService.CalculateCheeseDiscount(this);
                 totalDiscount = totalDiscount + discount;
 
                 SpecialOffersApplied.Add(new SpecialOffer
                 {
-                    Name = nameof(Cheese),
+                    ProductType = ProductType.Cheese,
                     Discount = discount
                 });
             }
 
             if (Products.OfType<Soup>().Any())
             {
-                decimal discount = DiscountService.CalculateBreadDiscount(this);
+                decimal discount = discountService.CalculateBreadDiscount(this);
                 totalDiscount = totalDiscount + discount;
 
                 SpecialOffersApplied.Add(new SpecialOffer
                 {
-                    Name = nameof(Bread),
+                    ProductType = ProductType.Bread,
                     Discount = discount
                 });
             }
 
             if (Products.OfType<Butter>().Any())
             {
-                decimal discount = DiscountService.CalculateButterDiscount(this);
+                decimal discount = discountService.CalculateButterDiscount(this);
                 totalDiscount = totalDiscount + discount;
 
                 SpecialOffersApplied.Add(new SpecialOffer
                 {
-                    Name = nameof(Butter),
+                    ProductType = ProductType.Butter,
                     Discount = discount
 
                 });

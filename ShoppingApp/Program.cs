@@ -1,9 +1,7 @@
 ﻿using DataAccess;
 using Domain;
 using System;
-using System.Runtime.InteropServices;
-using System.Text.Json;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace ShoppingApp
 {
@@ -12,9 +10,10 @@ namespace ShoppingApp
         static void Main(string[] args)
         {
             var productRepository = new ProductRepository();
-            var basket = new ShoppingBasket();
-            bool quit = false;
+            var basket = new ShoppingBasket(new DiscountService());
+            List<Product> products = productRepository.GetAll();
 
+            bool quit = false;
             while (!quit)
             {
                 Console.WriteLine("Please select a product and quantity to add to your basket, or type \"/help\" for a list of options. Type /checkout when you are done shopping.");
@@ -25,13 +24,12 @@ namespace ShoppingApp
                 {
                     Console.WriteLine();
                     Console.WriteLine("* To see a list of available products, type \"/products\".");
-                    Console.WriteLine("* To add an item to your basket, type \"/add\".");
+                    Console.WriteLine("* To add an item to your basket, type \"/add\". When you have added an item to your basket, type \"/confirm\" to confirm.");
                     Console.WriteLine("* Once you have finished shopping, type \"/checkout\" to generate your bill.");
                     Console.WriteLine();
                 }
                 else if (command == "/PRODUCTS")
                 {
-                    var products = productRepository.GetAll();
                     Console.WriteLine();
                     foreach(var product in products)
                     {
@@ -108,7 +106,7 @@ namespace ShoppingApp
                     Console.WriteLine();
                     foreach (var offer in bill.SpecialOffers)
                     {
-                        Console.WriteLine($"Offer: {offer.Name} Discount: {offer.Discount} ");
+                        Console.WriteLine($"Offer: {offer.ProductType} Discount: {offer.Discount} ");
                     }
                     Console.WriteLine();
                     Console.WriteLine($"Subtotal: {bill.SubTotal}");

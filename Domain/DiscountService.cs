@@ -3,37 +3,52 @@ using System.Linq;
 
 namespace Domain
 {
-    public static class DiscountService
+    public class DiscountService : IDiscountService
     {
-        public static decimal CalculateCheeseDiscount(ShoppingBasket cart)
+        /// <summary>
+        /// Returns the eligible discount amount for cheese based on the contents of the shopping basket.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <returns></returns>
+        public decimal CalculateCheeseDiscount(ShoppingBasket basket)
         {
-            int countCheese = cart.Products.OfType<Cheese>().Count();
+            int countCheese = basket.Products.OfType<Cheese>().Count();
 
             int numberToDiscount = countCheese / 2;
 
-            decimal amountToDiscount = cart.Products.OfType<Cheese>()
+            decimal amountToDiscount = basket.Products.OfType<Cheese>()
                 .First().Price * numberToDiscount;
 
             return Math.Round(amountToDiscount, 2);
         }
 
-        public static decimal CalculateBreadDiscount(ShoppingBasket cart)
+        /// <summary>
+        /// Returns the eligible discount amount for bread based on the contents of the shopping basket.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <returns></returns>
+        public decimal CalculateBreadDiscount(ShoppingBasket basket)
         {
-            int countSoup = cart.Products.OfType<Soup>().Count();
+            int countSoup = basket.Products.OfType<Soup>().Count();
 
             int numberToDiscount = countSoup;
 
-            decimal amountToDiscount = cart.Products.OfType<Bread>()
+            decimal amountToDiscount = basket.Products.OfType<Bread>()
                 .First().Price * numberToDiscount * 0.5M;
 
             return Math.Round(amountToDiscount, 2);
         }
 
-        public static decimal CalculateButterDiscount(ShoppingBasket cart)
+        /// <summary>
+        /// Returns the eligible discount amount for butter based on the contents of the shopping basket.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <returns></returns>
+        public decimal CalculateButterDiscount(ShoppingBasket basket)
         {
-            int countButter = cart.Products.OfType<Butter>().Count();
+            int countButter = basket.Products.OfType<Butter>().Count();
 
-            decimal amountToDiscount = cart.Products.OfType<Butter>()
+            decimal amountToDiscount = basket.Products.OfType<Butter>()
                 .First().Price * countButter * (1M / 3M);
 
             return Math.Round(amountToDiscount, 2);
