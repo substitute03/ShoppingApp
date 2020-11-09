@@ -27,11 +27,11 @@ namespace DataAccess
 
         private List<Product> Products => new List<Product>
         {
-            new Product(1.1M, ProductType.Bread),
-            new Product(1.2M, ProductType.Butter),
-            new Product(0.6M, ProductType.Soup),
-            new Product(0.9M, ProductType.Cheese),
-            new Product(0.5M, ProductType.Milk)
+            new Product(1.10M, ProductType.Bread),
+            new Product(1.20M, ProductType.Butter),
+            new Product(0.60M, ProductType.Soup),
+            new Product(0.90M, ProductType.Cheese),
+            new Product(0.50M, ProductType.Milk)
         };
     }
 }

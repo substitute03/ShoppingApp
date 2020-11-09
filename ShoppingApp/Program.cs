@@ -34,10 +34,10 @@ namespace ShoppingApp
                 else if (command == "/BASKET")
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Product | Price");
+                    Console.WriteLine("Your basket:");
                     foreach (var product in basket.Products)
                     {
-                        Console.WriteLine($"{product.Type} | { product.Price}");
+                        Console.WriteLine($"{product.Type} @ £{ product.Price}");
                     }
                 }
                 else if (command == "/PRODUCTS")
@@ -45,9 +45,8 @@ namespace ShoppingApp
                     Console.WriteLine();
                     foreach(var product in products)
                     {
-                        Console.WriteLine(product.Type);
+                        Console.WriteLine($"{product.Type} @ £{product.Price}");
                     }
-                    Console.WriteLine();
                 }
                 else if (command == "/ADD")
                 {
