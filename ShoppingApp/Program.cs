@@ -2,6 +2,7 @@
 using Domain;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ShoppingApp
 {
@@ -16,6 +17,8 @@ namespace ShoppingApp
             bool quit = false;
             while (!quit)
             {
+                Start:
+
                 Console.WriteLine();
                 Console.WriteLine("Please select a product and quantity to add to your basket, or type \"/help\" for a list of options. Type /checkout when you are done shopping.");
 
@@ -27,9 +30,9 @@ namespace ShoppingApp
                     Console.WriteLine("* To see a list of available products, type \"/products\".");
                     Console.WriteLine("* To add an item to your basket, type \"/add\".");
                     Console.WriteLine("* To remove an item from your basket, type \"/remove\".");
+                    Console.WriteLine("* To cancel a transaction, type \"/cancel\".");
                     Console.WriteLine("* To see the contents of your basket, type \"/basket\".");
                     Console.WriteLine("* Once you have finished shopping, type \"/checkout\" to generate your bill.");
-                    Console.WriteLine();
                 }
                 else if (command == "/BASKET")
                 {
@@ -51,16 +54,20 @@ namespace ShoppingApp
                 else if (command == "/ADD")
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Please select the product to add to your basket.");
+                    Console.WriteLine("Please select the product to add to your basket or type /cancel to cancel the transaction.");
 
                     Product productToAdd = null;
-                    string product = null;
+                    string productOrCancel = null;
 
                     bool isRealProduct = false;
                     while (!isRealProduct)
                     {
-                        product = Console.ReadLine().ToUpper().Trim();
-                        productToAdd = productRepository.GetByName(product);
+                        productOrCancel = Console.ReadLine().ToUpper().Trim();
+
+                        if (productOrCancel.ToUpper().Trim() == "/CANCEL")
+                            goto Start;
+
+                        productToAdd = productRepository.GetByName(productOrCancel);
 
                         if (productToAdd == null)
                         {
@@ -75,34 +82,43 @@ namespace ShoppingApp
                     }
 
                     Console.WriteLine();
-                    Console.WriteLine($"You have selected {product}. Please enter the number that you want to buy.");
+                    Console.WriteLine($"You have selected {productOrCancel}. Please enter the number that you want to buy or type /cancel to cancel the transaction.");
 
                     int quantity = 0;
                     bool isNumber = false;
                     while (!isNumber)
                     {
-                        isNumber = Int32.TryParse(Console.ReadLine(), out quantity);
+                        string numberOrCancel = Console.ReadLine();
+
+                        if (numberOrCancel.ToUpper().Trim() == "/CANCEL")
+                            goto Start;
+
+                        isNumber = Int32.TryParse(numberOrCancel, out quantity);
                         if (!isNumber)
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
                     }
 
                     basket.AddProduct(productToAdd, quantity);
 
-                    Console.WriteLine($"Added {quantity} {product}.");
+                    Console.WriteLine($"Added {quantity} {productOrCancel}.");
                 }
                 else if (command == "/REMOVE")
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Please select the product to remove from your basket.");
+                    Console.WriteLine("Please select the product to remove from your basket or type /cancel to cancel the transaction.");
 
                     Product productToRemove = null;
-                    string product = null;
+                    string productOrCancel = null;
 
                     bool isRealProduct = false;
                     while (!isRealProduct)
                     {
-                        product = Console.ReadLine().ToUpper().Trim();
-                        productToRemove = productRepository.GetByName(product);
+                        productOrCancel = Console.ReadLine().ToUpper().Trim();
+
+                        if (productOrCancel.ToUpper().Trim() == "/CANCEL")
+                            goto Start;
+
+                        productToRemove = productRepository.GetByName(productOrCancel);
 
                         if (productToRemove == null)
                         {
@@ -113,24 +129,28 @@ namespace ShoppingApp
                         {
                             isRealProduct = true;
                         }
-
                     }
 
                     Console.WriteLine();
-                    Console.WriteLine($"You have selected {product}. Please enter the number that you want to remove.");
+                    Console.WriteLine($"You have selected {productOrCancel}. Please enter the number that you want to remove or type /cancel to cancel the transaction.");
 
                     int quantity = 0;
                     bool isNumber = false;
                     while (!isNumber)
                     {
-                        isNumber = Int32.TryParse(Console.ReadLine(), out quantity);
+                        string numberOrCancel = Console.ReadLine();
+
+                        if (numberOrCancel.ToUpper().Trim() == "/CANCEL")
+                            goto Start;
+
+                        isNumber = Int32.TryParse(numberOrCancel, out quantity);
                         if (!isNumber)
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
                     }
 
                     basket.RemoveProduct(productToRemove, quantity);
 
-                    Console.WriteLine($"Removed {quantity} {product}.");
+                    Console.WriteLine($"Removed {quantity} {productOrCancel}.");
                 }
                 else if (command == "/CHECKOUT")
                 {
