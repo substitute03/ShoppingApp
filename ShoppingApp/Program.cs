@@ -2,6 +2,7 @@
 using Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace ShoppingApp
@@ -38,9 +39,10 @@ namespace ShoppingApp
                 {
                     Console.WriteLine();
                     Console.WriteLine("Your basket:");
-                    foreach (var product in basket.Products)
+
+                    foreach (var productType in basket.Products.GroupBy(p => p.Type))
                     {
-                        Console.WriteLine($"{product.Type} @ £{ product.Price}");
+                        Console.WriteLine($"{productType.Count()} x {productType.Key} @ £{productType.First().Price}");
                     }
                 }
                 else if (command == "/PRODUCTS")
@@ -78,7 +80,6 @@ namespace ShoppingApp
                         {
                             isRealProduct = true;
                         }
-
                     }
 
                     Console.WriteLine();
@@ -163,7 +164,7 @@ namespace ShoppingApp
 
                     foreach (var offer in bill.SpecialOffers)
                     {
-                        Console.WriteLine($"Offer: {offer.ProductType} Discount: {offer.Discount} ");
+                        Console.WriteLine($"Offer: {offer.ProductType} Discount: £{offer.Discount} ");
                     }
 
                     Console.WriteLine();
