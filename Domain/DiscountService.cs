@@ -13,7 +13,6 @@ namespace Domain
         public decimal CalculateCheeseDiscount(ShoppingBasket basket)
         {
             int countCheese = basket.Products.Count(p => p.Type == ProductType.Cheese);
-
             int numberToDiscount = countCheese / 2;
 
             decimal amountToDiscount = basket.Products
@@ -31,8 +30,8 @@ namespace Domain
         {
             int countSoup = basket.Products.Count(p => p.Type == ProductType.Soup);
             int countBread = basket.Products.Count(p => p.Type == ProductType.Bread);
-
             int numberToDiscount = 0;
+
             if (countSoup >= countBread)
             {
                 numberToDiscount = countBread;

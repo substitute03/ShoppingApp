@@ -14,7 +14,7 @@ namespace Domain
 
         public List<Product> Products { get; } = new List<Product>();
 
-        public decimal Total => ApplySpecialOffers(SubTotal);
+        public decimal Total => ApplySpecialOffers();
 
         public decimal SubTotal => Products.Sum(p => p.Price);
 
@@ -39,18 +39,18 @@ namespace Domain
         /// <summary>
         /// Removed 1 or more of the specified product from the shopping basket.
         /// </summary>
-        /// <param name="product"></param>
+        /// <param name="productToRemove"></param>
         /// <param name="numberToRemove"></param>
-        public void RemoveProduct (Product product, int numberToRemove)
+        public void RemoveProduct (Product productToRemove, int numberToRemove)
         {
             if (numberToRemove == 0)
                 return;
 
             for (int i = 1; i <= numberToRemove; i++)
             {
-                foreach(Product item in Products)
+                foreach (Product item in Products)
                 {
-                    if (item.GetType() == product.GetType())
+                    if (item.Type == productToRemove.Type)
                     {
                         Products.Remove(item);
                         break;
@@ -59,7 +59,7 @@ namespace Domain
             }
         }
 
-        private decimal ApplySpecialOffers(decimal total)
+        private decimal ApplySpecialOffers()
         {
             decimal totalDiscount = 0M;
             SpecialOffersApplied.Clear();
@@ -76,7 +76,8 @@ namespace Domain
                 });
             }
 
-            if (Products.Any(p => p.Type == ProductType.Soup))
+            if (Products.Any(p => p.Type == ProductType.Soup) &&
+                Products.Any(p => p.Type == ProductType.Bread))
             {
                 decimal discount = discountService.CalculateBreadDiscount(this);
                 totalDiscount = totalDiscount + discount;

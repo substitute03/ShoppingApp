@@ -2,7 +2,6 @@
 using Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ShoppingApp
 {
@@ -55,6 +54,7 @@ namespace ShoppingApp
 
                     Product productToAdd = null;
                     string product = null;
+
                     bool isRealProduct = false;
                     while (!isRealProduct)
                     {
@@ -118,10 +118,12 @@ namespace ShoppingApp
                     Console.WriteLine("Here is your bill.");
                     Console.WriteLine("Special offers applied:");
                     Console.WriteLine();
+
                     foreach (var offer in bill.SpecialOffers)
                     {
                         Console.WriteLine($"Offer: {offer.ProductType} Discount: {offer.Discount} ");
                     }
+
                     Console.WriteLine();
                     Console.WriteLine($"Subtotal: {bill.SubTotal}");
                     Console.WriteLine($"Total: {bill.Total}");
