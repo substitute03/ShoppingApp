@@ -81,6 +81,7 @@ namespace DomainTests
         }
 
         [DataTestMethod]
+        [DataRow(0, 1, 0)]
         [DataRow(2, 3, 0)]
         [DataRow(10, 11, 0)]
         [DataRow(100, 500, 0)]

@@ -18,6 +18,13 @@ namespace DataAccess
             return Products.Single(p => p.Type == type);
         }
 
+        public Product GetByName(string name)
+        {
+            name = name.ToUpper().Trim();
+
+            return Products.SingleOrDefault(p => p.Type.ToString().ToUpper() == name);
+        }
+
         private List<Product> Products => new List<Product>
         {
             new Product(1.1M, ProductType.Bread),

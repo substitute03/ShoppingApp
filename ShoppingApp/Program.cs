@@ -16,6 +16,7 @@ namespace ShoppingApp
             bool quit = false;
             while (!quit)
             {
+                Console.WriteLine();
                 Console.WriteLine("Please select a product and quantity to add to your basket, or type \"/help\" for a list of options. Type /checkout when you are done shopping.");
 
                 var command = Console.ReadLine().ToUpper().Trim();
@@ -47,7 +48,7 @@ namespace ShoppingApp
                     }
                     Console.WriteLine();
                 }
-                else if (command.Substring(0, 4) == "/ADD")
+                else if (command == "/ADD")
                 {
                     Console.WriteLine();
                     Console.WriteLine("Please select the product to add to your basket.");
@@ -59,32 +60,18 @@ namespace ShoppingApp
                     while (!isRealProduct)
                     {
                         product = Console.ReadLine().ToUpper().Trim();
-                        switch (product)
+                        productToAdd = productRepository.GetByName(product);
+
+                        if (productToAdd == null)
                         {
-                            case "BREAD":
-                                productToAdd = productRepository.GetByType(ProductType.Bread);
-                                isRealProduct = true;
-                                break;
-                            case "CHEESE":
-                                productToAdd = productRepository.GetByType(ProductType.Cheese);
-                                isRealProduct = true;
-                                break;
-                            case "SOUP":
-                                productToAdd = productRepository.GetByType(ProductType.Soup);
-                                isRealProduct = true;
-                                break;
-                            case "MILK":
-                                productToAdd = productRepository.GetByType(ProductType.Milk);
-                                isRealProduct = true;
-                                break;
-                            case "BUTTER":
-                                productToAdd = productRepository.GetByType(ProductType.Butter);
-                                isRealProduct = true;
-                                break;
-                            default:
-                                Console.WriteLine("Please select a valid product.");
-                                break;
+                            Console.WriteLine();
+                            Console.WriteLine("Please select a valid product.");
                         }
+                        else
+                        {
+                            isRealProduct = true;
+                        }
+
                     }
 
                     Console.WriteLine();
@@ -109,6 +96,55 @@ namespace ShoppingApp
                     }
 
                     basket.AddProduct(productToAdd, quantity);
+                }
+                else if (command == "/REMOVE")
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Please select the product to remove from your basket.");
+
+                    Product productToRemove = null;
+                    string product = null;
+
+                    bool isRealProduct = false;
+                    while (!isRealProduct)
+                    {
+                        product = Console.ReadLine().ToUpper().Trim();
+                        productToRemove = productRepository.GetByName(product);
+
+                        if (productToRemove == null)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("Please select a valid product.");
+                        }
+                        else
+                        {
+                            isRealProduct = true;
+                        }
+
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine($"You have selected {product}. Please enter the number that you want to remove.");
+
+                    int quantity = 0;
+                    bool isNumber = false;
+                    while (!isNumber)
+                    {
+                        isNumber = Int32.TryParse(Console.ReadLine(), out quantity);
+                        if (!isNumber)
+                            Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
+                    }
+
+                    bool isConfirmed = false;
+                    while (!isConfirmed)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"You have selected {quantity} {product}. To confirm, please type /confirm");
+                        if (Console.ReadLine().ToUpper().Trim() == "/CONFIRM")
+                            isConfirmed = true;
+                    }
+
+                    basket.RemoveProduct(productToRemove, quantity);
                 }
                 else if (command == "/CHECKOUT")
                 {
