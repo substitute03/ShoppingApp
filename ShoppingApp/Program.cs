@@ -172,6 +172,8 @@ namespace ShoppingApp
                     Console.WriteLine($"Total: {bill.Total}");
                     Console.WriteLine();
                     Console.WriteLine("Thank you.");
+                    Console.WriteLine("Press any key to quit.");
+                    var end = Console.ReadKey();
 
                     quit = true;
                 }
