@@ -25,7 +25,8 @@ namespace ShoppingApp
                 {
                     Console.WriteLine();
                     Console.WriteLine("* To see a list of available products, type \"/products\".");
-                    Console.WriteLine("* To add an item to your basket, type \"/add\". When you have added an item to your basket, type \"/confirm\" to confirm.");
+                    Console.WriteLine("* To add an item to your basket, type \"/add\".");
+                    Console.WriteLine("* To remove an item from your basket, type \"/remove\".");
                     Console.WriteLine("* To see the contents of your basket, type \"/basket\".");
                     Console.WriteLine("* Once you have finished shopping, type \"/checkout\" to generate your bill.");
                     Console.WriteLine();
