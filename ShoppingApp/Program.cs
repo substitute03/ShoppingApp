@@ -87,16 +87,9 @@ namespace ShoppingApp
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
                     }
 
-                    bool isConfirmed = false;
-                    while (!isConfirmed)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine($"You have selected {quantity} {product}. To confirm, please type /confirm");
-                        if (Console.ReadLine().ToUpper().Trim() == "/CONFIRM")
-                            isConfirmed = true;
-                    }
-
                     basket.AddProduct(productToAdd, quantity);
+
+                    Console.WriteLine($"Added {quantity} {product}.");
                 }
                 else if (command == "/REMOVE")
                 {
@@ -136,16 +129,9 @@ namespace ShoppingApp
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
                     }
 
-                    bool isConfirmed = false;
-                    while (!isConfirmed)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine($"You have selected {quantity} {product}. To confirm, please type /confirm");
-                        if (Console.ReadLine().ToUpper().Trim() == "/CONFIRM")
-                            isConfirmed = true;
-                    }
-
                     basket.RemoveProduct(productToRemove, quantity);
+
+                    Console.WriteLine($"Removed {quantity} {product}.");
                 }
                 else if (command == "/CHECKOUT")
                 {
