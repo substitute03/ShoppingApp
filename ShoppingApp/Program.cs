@@ -168,8 +168,8 @@ namespace ShoppingApp
                     }
 
                     Console.WriteLine();
-                    Console.WriteLine($"Subtotal: {bill.SubTotal}");
-                    Console.WriteLine($"Total: {bill.Total}");
+                    Console.WriteLine($"Subtotal: £{bill.SubTotal}");
+                    Console.WriteLine($"Total: £{bill.Total}");
                     Console.WriteLine();
                     Console.WriteLine("Thank you.");
                     Console.WriteLine("Press any key to quit.");
