@@ -1,5 +1,5 @@
 # ShoppingApp
-ShoppingApp is a simple console application developed in .NET Core 3.1 that allows you to add items to shopping basket, have special offers applied, and to generate a bill.
+ShoppingApp is a simple console application developed in .NET Core 3.1 that allows you to add items to shopping basket, have special offers applied, and to generate a bill. To run the app, simply open the solution and run it. There are no additional dependencies.
 
 ## Commands
 
