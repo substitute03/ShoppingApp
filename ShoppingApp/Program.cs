@@ -13,13 +13,17 @@ namespace ShoppingApp
             var basket = new ShoppingBasket(new DiscountService());
             List<Product> products = productRepository.GetAll();
 
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Welcome To The Shop!");
+            Console.WriteLine("---------------------");
             bool quit = false;
             while (!quit)
             {
-                Start:
-
+            Start:
                 Console.WriteLine();
-                Console.WriteLine("Please select a product and quantity to add to your basket, or type \"/help\" for a list of options. Type /checkout when you are done shopping.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Type a command or type \"/help\" for a list of available commands.");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 var command = Console.ReadLine().ToUpper().Trim();
 
@@ -35,21 +39,34 @@ namespace ShoppingApp
                 }
                 else if (command == "/BASKET")
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Your basket:");
-                    Console.WriteLine($"Subtotal: £{basket.SubTotal}");
-                    foreach (var item in basket.Items)
+                    if (basket.Items.Count == 0)
                     {
-                        Console.WriteLine($"{item.Amount} x {item.Product.Type} @ £{item.Product.Price}");
+                        Console.WriteLine("Your basket is empty. Go and add some items!");
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Your Basket:");
+                        Console.WriteLine("------------------------------------");
+                        Console.WriteLine($"Subtotal: £{basket.SubTotal}");
+                        Console.WriteLine();
+                        foreach (var item in basket.Items)
+                        {
+                            Console.WriteLine($"{item.Amount} x {item.Product.Type} @ £{item.Product.Price}");
+                        }
+                        Console.WriteLine("------------------------------------");
                     }
                 }
                 else if (command == "/PRODUCTS")
                 {
                     Console.WriteLine();
+                    Console.WriteLine("Here are the products that we sell.");
+                    Console.WriteLine("------------------------------------");
                     foreach(var product in products)
                     {
                         Console.WriteLine($"{product.Type} @ £{product.Price}");
                     }
+                    Console.WriteLine("------------------------------------");
                 }
                 else if (command == "/ADD")
                 {
@@ -71,8 +88,9 @@ namespace ShoppingApp
 
                         if (productToAdd == null)
                         {
-                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Please select a valid product.");
+                            Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
                         {
@@ -94,12 +112,18 @@ namespace ShoppingApp
 
                         isNumber = Int32.TryParse(numberOrCancel, out quantity);
                         if (!isNumber)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                     }
 
                     basket.AddProduct(productToAdd, quantity);
 
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Added {quantity} {productOrCancel}.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (command == "/REMOVE")
                 {
@@ -121,8 +145,9 @@ namespace ShoppingApp
 
                         if (productToRemove == null)
                         {
-                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Please select a valid product.");
+                            Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
                         {
@@ -144,30 +169,37 @@ namespace ShoppingApp
 
                         isNumber = Int32.TryParse(numberOrCancel, out quantity);
                         if (!isNumber)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                     }
 
                     int countRemoved = basket.RemoveProduct(productToRemove, quantity);
 
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Removed {countRemoved} {productOrCancel}.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (command == "/CHECKOUT")
                 {
                     var bill = new Bill(basket);
 
                     Console.WriteLine();
-                    Console.WriteLine("Here is your bill.");
+                    Console.WriteLine("Customer Bill");
+                    Console.WriteLine("------------------------------------");
                     Console.WriteLine("Special offers applied:");
                     Console.WriteLine();
-
                     foreach (var offer in bill.SpecialOffers)
                     {
-                        Console.WriteLine($"{offer.Desciption} x {offer.CountApplied} (-£{offer.Discount})");
+                        Console.WriteLine($"* {offer.Desciption} x {offer.CountApplied} (-£{offer.Discount})");
                     }
-
                     Console.WriteLine();
                     Console.WriteLine($"Subtotal: £{bill.SubTotal}");
+                    Console.WriteLine($"Savings: -£{bill.SubTotal - bill.Total}");
                     Console.WriteLine($"Total: £{bill.Total}");
+                    Console.WriteLine("------------------------------------");
                     Console.WriteLine();
                     Console.WriteLine("Thank you.");
                     Console.WriteLine("Press any key to quit.");
