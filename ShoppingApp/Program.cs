@@ -39,7 +39,7 @@ namespace ShoppingApp
                 {
                     Console.WriteLine();
                     Console.WriteLine("Your basket:");
-
+                    Console.WriteLine($"Subtotal: {basket.SubTotal}");
                     foreach (var productType in basket.Products.GroupBy(p => p.Type))
                     {
                         Console.WriteLine($"{productType.Count()} x {productType.Key} @ £{productType.First().Price}");

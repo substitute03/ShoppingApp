@@ -10,11 +10,13 @@ Commands
 - /products - Displays a list of available products.
 - /basket - Displays the contents of your shopping basket.
 - /add - Allows you to specify a product and a quantity to add to your shopping basket.
+- /remove - Allows you to specify a product and a quantity to remove from your shopping basket.
+- /cancel - Cancels out of a transaction.
 - /remove- Allows you to specify a product and a quantity to remove from your shopping basket.
 - /checkout - Completes the shopping transaction and generates a bill based on the contents of your basket.
 
-Example
---------
+Examples
+---------
 
 To add 2 bread and 2 soup to your basket, and then checkout, you would execute the following commands.
 
@@ -27,3 +29,11 @@ To add 2 bread and 2 soup to your basket, and then checkout, you would execute t
 7. 2
 8. /confirm
 9. /checkout
+
+To remove 1 soup before checking out you would execute the following commands.
+```
+1. /remove
+2. soup
+3. 1
+5. /checkout
+```
