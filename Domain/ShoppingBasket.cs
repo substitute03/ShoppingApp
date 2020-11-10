@@ -16,7 +16,7 @@ namespace Domain
 
         public decimal Total => ApplySpecialOffers();
 
-        public decimal SubTotal => Items.Sum(i => i.Product.Price);
+        public decimal SubTotal => Items.Sum(i => i.Product.Price * i.Amount);
 
         public List<SpecialOffer> SpecialOffersApplied { get; } = new List<SpecialOffer>();
 
