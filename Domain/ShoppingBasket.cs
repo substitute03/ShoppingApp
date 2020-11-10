@@ -14,6 +14,8 @@ namespace Domain
 
         public List<Product> Products { get; } = new List<Product>();
 
+        public List<ShoppingBasketItem> Items { get; } = new List<ShoppingBasketItem>();
+
         public decimal Total => ApplySpecialOffers();
 
         public decimal SubTotal => Products.Sum(p => p.Price);
