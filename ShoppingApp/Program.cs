@@ -164,7 +164,7 @@ namespace ShoppingApp
 
                     foreach (var offer in bill.SpecialOffers)
                     {
-                        Console.WriteLine($"Offer: {offer.ProductType} Discount: £{offer.Discount} ");
+                        Console.WriteLine($"{offer.Desciption} x {offer.CountApplied} (-£{offer.Discount})");
                     }
 
                     Console.WriteLine();

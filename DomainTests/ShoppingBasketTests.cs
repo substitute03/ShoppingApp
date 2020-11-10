@@ -110,8 +110,8 @@ namespace DomainTests
             var product = new Product(decimal.Zero, type);
 
             // Act
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Bread), numberToAdd);
-            basket.RemoveProduct(new Product(decimal.Zero, ProductType.Bread), numberToRemove);
+            basket.AddProduct(product, numberToAdd);
+            basket.RemoveProduct(product, numberToRemove);
 
             // Assert
             Assert.AreEqual(null, basket.GetItem(type));

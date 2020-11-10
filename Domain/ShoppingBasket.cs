@@ -14,7 +14,7 @@ namespace Domain
 
         public List<ShoppingBasketItem> Items { get; } = new List<ShoppingBasketItem>();
 
-        public decimal Total => ApplySpecialOffers();
+        public decimal Total => GetTotal();
 
         public decimal SubTotal => Items.Sum(i => i.Product.Price * i.Amount);
 
@@ -60,12 +60,12 @@ namespace Domain
             ShoppingBasketItem productInBasket = Items.SingleOrDefault(
                 i => i.Product.Type == product.Type);
 
-            int amountInBasket = productInBasket.Amount;
-
             if (productInBasket == null)
             {
                 return 0;
             }
+
+            int amountInBasket = productInBasket.Amount;
 
             if (amountInBasket <= numberToRemove)
             {
@@ -84,50 +84,22 @@ namespace Domain
             return Items.SingleOrDefault(i => i.Product.Type == type);
         }
 
-        private decimal ApplySpecialOffers()
+        private decimal GetTotal()
         {
-            decimal totalDiscount = 0M;
+            ApplySpecialOffers();
+
+            decimal discount = SpecialOffersApplied.Sum(so => so.Discount);
+
+            return SubTotal - discount;
+        }
+
+        private void ApplySpecialOffers()
+        {
             SpecialOffersApplied.Clear();
 
-            if(Items.Any(p => p.Product.Type == ProductType.Cheese))
-            {
-                decimal discount = discountService.CalculateCheeseDiscount(this);
-                totalDiscount = totalDiscount + discount;
+            List<SpecialOffer> offersToApply = discountService.GetSpecialOffers(this);
 
-                SpecialOffersApplied.Add(new SpecialOffer
-                {
-                    ProductType = ProductType.Cheese,
-                    Discount = discount
-                });
-            }
-
-            if (Items.Any(p => p.Product.Type == ProductType.Soup) &&
-                Items.Any(p => p.Product.Type == ProductType.Bread))
-            {
-                decimal discount = discountService.CalculateBreadDiscount(this);
-                totalDiscount = totalDiscount + discount;
-
-                SpecialOffersApplied.Add(new SpecialOffer
-                {
-                    ProductType = ProductType.Bread,
-                    Discount = discount
-                });
-            }
-
-            if (Items.Any(p => p.Product.Type == ProductType.Butter))
-            {
-                decimal discount = discountService.CalculateButterDiscount(this);
-                totalDiscount = totalDiscount + discount;
-
-                SpecialOffersApplied.Add(new SpecialOffer
-                {
-                    ProductType = ProductType.Butter,
-                    Discount = discount
-
-                });
-            }
-
-            return SubTotal - totalDiscount;
+            SpecialOffersApplied.AddRange(offersToApply);
         }
     }
 }
