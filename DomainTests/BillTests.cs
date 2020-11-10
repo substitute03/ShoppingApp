@@ -5,7 +5,7 @@ using System.Linq;
 namespace DomainTests
 {
     [TestClass]
-    public class DiscountServiceTests
+    public class BillTests
     {
         [DataTestMethod]
         [DataRow(2, 1, "0.55")] // Buy a soup and two breads - only one bread should be reduced.

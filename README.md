@@ -31,3 +31,10 @@ To remove 1 soup before checking out you would execute the following commands.
 3. 1
 5. /checkout
 ```
+
+## Overview
+
+- Separate domains are split out into separate projects for separation of concerns. Each project only has dependencies to the other project/s that it relies on.
+- Wanted a balance between the app being "production code" and applying [YAGNI](https://martinfowler.com/bliki/Yagni.html) principles in terms of treating the task requirements as business requirements.
+  - For example, the ```ProductRepository``` returns a hard-coded list on products as the scope of the project did not require a database.
+  - Bills are not saved as business requirements did not specify a need to do so, with no scope implied that it would be needed going forward.

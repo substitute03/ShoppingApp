@@ -10,7 +10,7 @@ namespace Domain
         /// </summary>
         /// <param name="basket"></param>
         /// <returns></returns>
-        public decimal CalculateCheeseDiscount(ShoppingBasket basket)
+        internal decimal CalculateCheeseDiscount(ShoppingBasket basket)
         {
             int countCheese = basket.Products.Count(p => p.Type == ProductType.Cheese);
             int numberToDiscount = countCheese / 2;
@@ -26,7 +26,7 @@ namespace Domain
         /// </summary>
         /// <param name="basket"></param>
         /// <returns></returns>
-        public decimal CalculateBreadDiscount(ShoppingBasket basket)
+        internal decimal CalculateBreadDiscount(ShoppingBasket basket)
         {
             int countSoup = basket.Products.Count(p => p.Type == ProductType.Soup);
             int countBread = basket.Products.Count(p => p.Type == ProductType.Bread);
@@ -52,7 +52,7 @@ namespace Domain
         /// </summary>
         /// <param name="basket"></param>
         /// <returns></returns>
-        public decimal CalculateButterDiscount(ShoppingBasket basket)
+        internal decimal CalculateButterDiscount(ShoppingBasket basket)
         {
             int countButter = basket.Products.Count(p => p.Type == ProductType.Butter);
 
