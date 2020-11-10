@@ -12,13 +12,11 @@ namespace Domain
             this.discountService = discountService;
         }
 
-        public List<Product> Products { get; } = new List<Product>();
-
         public List<ShoppingBasketItem> Items { get; } = new List<ShoppingBasketItem>();
 
         public decimal Total => ApplySpecialOffers();
 
-        public decimal SubTotal => Products.Sum(p => p.Price);
+        public decimal SubTotal => Items.Sum(i => i.Product.Price);
 
         public List<SpecialOffer> SpecialOffersApplied { get; } = new List<SpecialOffer>();
 
@@ -29,36 +27,57 @@ namespace Domain
         /// <param name="numberToAdd"></param>
         public void AddProduct(Product product, int numberToAdd)
         {
-            if (numberToAdd == 0)
-                return;
-
-            for (int i = 1; i <= numberToAdd; i++)
+            if (numberToAdd < 1)
             {
-                Products.Add(product);
+                return;
+            }            
+
+            ShoppingBasketItem productInBasket = Items.SingleOrDefault(
+                i => i.Product.Type == product.Type);
+
+            if (productInBasket == null)
+            {
+                Items.Add(new ShoppingBasketItem(product, numberToAdd));
+            }
+            else
+            {
+                productInBasket.Amount += numberToAdd;
             }
         }
 
         /// <summary>
         /// Removed 1 or more of the specified product from the shopping basket.
         /// </summary>
-        /// <param name="productToRemove"></param>
+        /// <param name="product"></param>
         /// <param name="numberToRemove"></param>
-        public void RemoveProduct (Product productToRemove, int numberToRemove)
+        public void RemoveProduct (Product product, int numberToRemove)
         {
-            if (numberToRemove == 0)
-                return;
-
-            for (int i = 1; i <= numberToRemove; i++)
+            if (numberToRemove < 1)
             {
-                foreach (Product item in Products)
-                {
-                    if (item.Type == productToRemove.Type)
-                    {
-                        Products.Remove(item);
-                        break;
-                    }
-                }
+                return;
             }
+
+            ShoppingBasketItem productInBasket = Items.SingleOrDefault(
+                i => i.Product.Type == product.Type);
+
+            if (productInBasket == null)
+            {
+                return;
+            }
+
+            if (productInBasket.Amount <= numberToRemove)
+            {
+                Items.Remove(productInBasket);
+            }
+            else
+            {
+                productInBasket.Amount -= numberToRemove;
+            }         
+        }
+
+        public ShoppingBasketItem GetItem(ProductType type)
+        {
+            return Items.SingleOrDefault(i => i.Product.Type == type);
         }
 
         private decimal ApplySpecialOffers()
@@ -66,7 +85,7 @@ namespace Domain
             decimal totalDiscount = 0M;
             SpecialOffersApplied.Clear();
 
-            if(Products.Any(p => p.Type == ProductType.Cheese))
+            if(Items.Any(p => p.Product.Type == ProductType.Cheese))
             {
                 decimal discount = discountService.CalculateCheeseDiscount(this);
                 totalDiscount = totalDiscount + discount;
@@ -78,8 +97,8 @@ namespace Domain
                 });
             }
 
-            if (Products.Any(p => p.Type == ProductType.Soup) &&
-                Products.Any(p => p.Type == ProductType.Bread))
+            if (Items.Any(p => p.Product.Type == ProductType.Soup) &&
+                Items.Any(p => p.Product.Type == ProductType.Bread))
             {
                 decimal discount = discountService.CalculateBreadDiscount(this);
                 totalDiscount = totalDiscount + discount;
@@ -91,7 +110,7 @@ namespace Domain
                 });
             }
 
-            if (Products.Any(p => p.Type == ProductType.Butter))
+            if (Items.Any(p => p.Product.Type == ProductType.Butter))
             {
                 decimal discount = discountService.CalculateButterDiscount(this);
                 totalDiscount = totalDiscount + discount;

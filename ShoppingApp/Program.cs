@@ -40,9 +40,9 @@ namespace ShoppingApp
                     Console.WriteLine();
                     Console.WriteLine("Your basket:");
                     Console.WriteLine($"Subtotal: £{basket.SubTotal}");
-                    foreach (var productType in basket.Products.GroupBy(p => p.Type))
+                    foreach (var item in basket.Items)
                     {
-                        Console.WriteLine($"{productType.Count()} x {productType.Key} @ £{productType.First().Price}");
+                        Console.WriteLine($"{item.Amount} x {item.Product.Type} @ £{item.Product.Price}");
                     }
                 }
                 else if (command == "/PRODUCTS")

@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace DomainTests
 {
@@ -7,41 +8,52 @@ namespace DomainTests
     public class ShoppingBasketTests
     {
         [DataTestMethod]
-        [DataRow(1, 1)]
-        [DataRow(2, 2)]
-        [DataRow(10, 10)]
-        [DataRow(100, 100)]
-        public void Can_add_a_product_to_the_basket(int numberToAdd, int expectedItemsInBasket)
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(10)]
+        [DataRow(100)]
+        public void Can_add_a_product_to_the_basket(int numberToAdd)
         {
             // Arrange
+            var type = ProductType.Bread;
             var basket = new ShoppingBasket(null);
+            var product = new Product(decimal.Zero, type);
 
             // Act
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Bread), numberToAdd);
+            basket.AddProduct(product, numberToAdd);
 
             // Assert
-            Assert.AreEqual(expectedItemsInBasket, basket.Products.Count);
+            Assert.AreEqual(numberToAdd, basket.GetItem(type).Amount);
         }
 
         [DataTestMethod]
-        [DataRow(1, 5)]
-        [DataRow(2, 10)]
-        [DataRow(10, 50)]
-        [DataRow(100, 500)]
-        public void Can_add_multiple_product_types_to_the_basket(int numberToAdd, int expectedItemsInBasket)
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(10)]
+        [DataRow(100)]
+        public void Can_add_multiple_product_types_to_the_basket(int numberToAdd)
         {
             // Arrange
             var basket = new ShoppingBasket(null);
+            var bread = new Product(decimal.Zero, ProductType.Bread);
+            var milk = new Product(decimal.Zero, ProductType.Milk);
+            var cheese = new Product(decimal.Zero, ProductType.Cheese);
+            var butter = new Product(decimal.Zero, ProductType.Butter);
+            var soup = new Product(decimal.Zero, ProductType.Soup);
 
             // Act
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Bread), numberToAdd);
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Milk), numberToAdd);
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Cheese), numberToAdd);
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Butter), numberToAdd);
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Soup), numberToAdd);
+            basket.AddProduct(bread, numberToAdd);
+            basket.AddProduct(milk, numberToAdd);
+            basket.AddProduct(cheese, numberToAdd);
+            basket.AddProduct(butter, numberToAdd);
+            basket.AddProduct(soup, numberToAdd);
 
             // Assert
-            Assert.AreEqual(expectedItemsInBasket, basket.Products.Count);
+            Assert.AreEqual(numberToAdd, basket.GetItem(ProductType.Bread).Amount);
+            Assert.AreEqual(numberToAdd, basket.GetItem(ProductType.Milk).Amount);
+            Assert.AreEqual(numberToAdd, basket.GetItem(ProductType.Cheese).Amount);
+            Assert.AreEqual(numberToAdd, basket.GetItem(ProductType.Butter).Amount);
+            Assert.AreEqual(numberToAdd, basket.GetItem(ProductType.Soup).Amount);
         }
 
         [DataTestMethod]
@@ -53,13 +65,15 @@ namespace DomainTests
         {
             // Arrange
             var basket = new ShoppingBasket(null);
+            var type = ProductType.Bread;
+            var product = new Product(decimal.Zero, ProductType.Bread);
 
             // Act
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Bread), numberToAddAndRemove);
-            basket.RemoveProduct(new Product(decimal.Zero, ProductType.Bread), numberToAddAndRemove);
+            basket.AddProduct(product, numberToAddAndRemove);
+            basket.RemoveProduct(product, numberToAddAndRemove);
 
             // Assert
-            Assert.AreEqual(0, basket.Products.Count);
+            Assert.AreEqual(null, basket.GetItem(type));
         }
 
         [DataTestMethod]
@@ -71,32 +85,36 @@ namespace DomainTests
         {
             // Arrange
             var basket = new ShoppingBasket(null);
+            var type = ProductType.Bread;
+            var product = new Product(decimal.Zero, type);
 
             // Act
-            basket.AddProduct(new Product(decimal.Zero, ProductType.Bread), numberToAdd);
-            basket.RemoveProduct(new Product(decimal.Zero, ProductType.Bread), numberToRemove);
+            basket.AddProduct(product, numberToAdd);
+            basket.RemoveProduct(product, numberToRemove);
 
             // Assert
-            Assert.AreEqual(expectedNumberLeftInBasket, basket.Products.Count);
+            Assert.AreEqual(expectedNumberLeftInBasket, basket.GetItem(type).Amount);
         }
 
         [DataTestMethod]
-        [DataRow(0, 1, 0)]
-        [DataRow(2, 3, 0)]
-        [DataRow(10, 11, 0)]
-        [DataRow(100, 500, 0)]
-        [DataRow(500, 1000, 0)]
-        public void Removing_more_items_than_are_in_the_basket_removes_all_the_items(int numberToAdd, int numberToRemove, int expectedNumberLeftInBasket)
+        [DataRow(0, 1)]
+        [DataRow(2, 3)]
+        [DataRow(10, 11)]
+        [DataRow(100, 500)]
+        [DataRow(500, 1000)]
+        public void Removing_more_items_than_are_in_the_basket_removes_all_the_items(int numberToAdd, int numberToRemove)
         {
             // Arrange
             var basket = new ShoppingBasket(null);
+            var type = ProductType.Bread;
+            var product = new Product(decimal.Zero, type);
 
             // Act
             basket.AddProduct(new Product(decimal.Zero, ProductType.Bread), numberToAdd);
             basket.RemoveProduct(new Product(decimal.Zero, ProductType.Bread), numberToRemove);
 
             // Assert
-            Assert.AreEqual(expectedNumberLeftInBasket, basket.Products.Count);
+            Assert.AreEqual(null, basket.GetItem(type));
         }
     }
 }

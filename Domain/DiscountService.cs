@@ -12,13 +12,11 @@ namespace Domain
         /// <returns></returns>
         internal decimal CalculateCheeseDiscount(ShoppingBasket basket)
         {
-            int countCheese = basket.Products.Count(p => p.Type == ProductType.Cheese);
-            int numberToDiscount = countCheese / 2;
+            ShoppingBasketItem item = basket.GetItem(ProductType.Cheese);
+            int numberToDiscount = item.Amount / 2;
+            decimal discount = item.Product.Price * numberToDiscount;
 
-            decimal amountToDiscount = basket.Products
-                .First(p => p.Type == ProductType.Cheese).Price * numberToDiscount;
-
-            return Math.Round(amountToDiscount, 2);
+            return Math.Round(discount, 2);
         }
 
         /// <summary>
@@ -28,23 +26,12 @@ namespace Domain
         /// <returns></returns>
         internal decimal CalculateBreadDiscount(ShoppingBasket basket)
         {
-            int countSoup = basket.Products.Count(p => p.Type == ProductType.Soup);
-            int countBread = basket.Products.Count(p => p.Type == ProductType.Bread);
-            int numberToDiscount = 0;
+            ShoppingBasketItem soupInBasket = basket.GetItem(ProductType.Soup);
+            ShoppingBasketItem breadInBasket = basket.GetItem(ProductType.Bread);
+            int numberToDiscount = Math.Min(soupInBasket.Amount, breadInBasket.Amount);
+            decimal discount = breadInBasket.Product.Price * numberToDiscount * 0.5M;
 
-            if (countSoup >= countBread)
-            {
-                numberToDiscount = countBread;
-            }
-            else if (countBread > countSoup)
-            {
-                numberToDiscount = countSoup;
-            }                
-
-            decimal amountToDiscount = basket.Products
-                .First(p => p.Type == ProductType.Bread).Price * numberToDiscount * 0.5M;
-
-            return Math.Round(amountToDiscount, 2);
+            return Math.Round(discount, 2);
         }
 
         /// <summary>
@@ -54,10 +41,8 @@ namespace Domain
         /// <returns></returns>
         internal decimal CalculateButterDiscount(ShoppingBasket basket)
         {
-            int countButter = basket.Products.Count(p => p.Type == ProductType.Butter);
-
-            decimal amountToDiscount = basket.Products
-                .First(p => p.Type == ProductType.Butter).Price * countButter * (1M / 3M);
+            ShoppingBasketItem butterInBasket = basket.GetItem(ProductType.Butter);
+            decimal amountToDiscount = butterInBasket.Product.Price * butterInBasket.Amount * (1M / 3M);
 
             return Math.Round(amountToDiscount, 2);
         }
