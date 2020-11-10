@@ -46,32 +46,36 @@ namespace Domain
         }
 
         /// <summary>
-        /// Removed 1 or more of the specified product from the shopping basket.
+        /// Removed 1 or more of the specified product from the shopping basket. Returns the number of items removed.
         /// </summary>
         /// <param name="product"></param>
         /// <param name="numberToRemove"></param>
-        public void RemoveProduct (Product product, int numberToRemove)
+        public int RemoveProduct (Product product, int numberToRemove)
         {
             if (numberToRemove < 1)
             {
-                return;
+                return 0;
             }
 
             ShoppingBasketItem productInBasket = Items.SingleOrDefault(
                 i => i.Product.Type == product.Type);
 
+            int amountInBasket = productInBasket.Amount;
+
             if (productInBasket == null)
             {
-                return;
+                return 0;
             }
 
-            if (productInBasket.Amount <= numberToRemove)
+            if (amountInBasket <= numberToRemove)
             {
                 Items.Remove(productInBasket);
+                return amountInBasket;
             }
             else
             {
                 productInBasket.Amount -= numberToRemove;
+                return numberToRemove;
             }         
         }
 

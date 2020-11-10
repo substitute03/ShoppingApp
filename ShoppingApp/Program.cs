@@ -149,9 +149,9 @@ namespace ShoppingApp
                             Console.WriteLine("You have entered an invalid number. Please make sure you enter a positive integer.");
                     }
 
-                    basket.RemoveProduct(productToRemove, quantity);
+                    int countRemoved = basket.RemoveProduct(productToRemove, quantity);
 
-                    Console.WriteLine($"Removed {quantity} {productOrCancel}.");
+                    Console.WriteLine($"Removed {countRemoved} {productOrCancel}.");
                 }
                 else if (command == "/CHECKOUT")
                 {
