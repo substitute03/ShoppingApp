@@ -11,13 +11,13 @@
         public decimal Price { get; private set; }
         public ProductType Type { get; private set; }
     }
-}
 
-public enum ProductType
-{
-    Bread,
-    Cheese,
-    Milk,
-    Soup,
-    Butter
+    public enum ProductType
+    {
+        Bread,
+        Cheese,
+        Milk,
+        Soup,
+        Butter
+    }
 }

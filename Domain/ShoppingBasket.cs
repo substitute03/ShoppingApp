@@ -79,6 +79,11 @@ namespace Domain
             }         
         }
 
+        /// <summary>
+        /// Gets a ShoppingBasketItem from the ShoppingBasket that matches the supplied ProductType.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public ShoppingBasketItem GetItem(ProductType type)
         {
             return Items.SingleOrDefault(i => i.Product.Type == type);
